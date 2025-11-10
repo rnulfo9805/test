@@ -8,13 +8,13 @@ import java.io.InputStreamReader;
 
 import javax.imageio.ImageIO;
 
-import main.main.GamePanel;
+import main.GamePanel;
 
 public class TileManager {
 	
 	GamePanel gp;
-	Tile[] tile;
-	int mapTileNum[] [];
+	public Tile[] tile;
+	public int mapTileNum[] [];
 	
 	public TileManager(GamePanel gp) {
 		
@@ -33,13 +33,14 @@ public class TileManager {
 			
 			tile[0] = new Tile();
 			tile[0].image = ImageIO.read(getClass().getResourceAsStream("/tiles/cobblestone.png"));
+			tile[0].collision = true;
 			
 			tile[1] = new Tile();
 			tile[1].image = ImageIO.read(getClass().getResourceAsStream("/tiles/road.png"));
 			
 			tile[2] = new Tile();
 			tile[2].image = ImageIO.read(getClass().getResourceAsStream("/tiles/water.png"));
-			
+			tile[2].collision = true;
 		}catch(IOException e) {
 			e.printStackTrace();
 		}
