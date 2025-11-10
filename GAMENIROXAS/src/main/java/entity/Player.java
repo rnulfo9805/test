@@ -14,7 +14,11 @@ public class Player extends Entity {
     
     public int screenX;
     public int screenY;
-    
+    //start, eto simula ronald, tanggalin mo nlang toh pagtapos mo
+    BufferedImage standingLeft, standingRight;
+    BufferedImage left1, left2, right1, right2;
+    BufferedImage inBetweenLeft, inBetweenRight;
+	
     public Player(GamePanel gp, KeyHandler keyH) {
     	
     	this.gp = gp;
@@ -36,147 +40,81 @@ public class Player extends Entity {
   
   	}
   public void GetPlayerImage() {
-	 
-	  try {
-		  
-		  down1 = ImageIO.read(getClass().getResourceAsStream("/player/Rem_down_1.png"));
-		  down2 = ImageIO.read(getClass().getResourceAsStream("/player/Rem_down_2.png"));
-		  down3 = ImageIO.read(getClass().getResourceAsStream("/player/Rem_down_3.png"));
-		  down4 = ImageIO.read(getClass().getResourceAsStream("/player/Rem_down_4.png"));
-		  down5 = ImageIO.read(getClass().getResourceAsStream("/player/Rem_down_5.png"));
-		  left1 = ImageIO.read(getClass().getResourceAsStream("/player/Rem_left_1.png"));
-		  left2 = ImageIO.read(getClass().getResourceAsStream("/player/Rem_left_2.png"));
-		  left3 = ImageIO.read(getClass().getResourceAsStream("/player/Rem_left_3.png"));
-		  left4 = ImageIO.read(getClass().getResourceAsStream("/player/Rem_left_4.png"));
-		  left5 = ImageIO.read(getClass().getResourceAsStream("/player/Rem_left_5.png"));
-		  right1 = ImageIO.read(getClass().getResourceAsStream("/player/Rem_right_1.png"));
-		  right2 = ImageIO.read(getClass().getResourceAsStream("/player/Rem_right_2.png"));
-		  right3 = ImageIO.read(getClass().getResourceAsStream("/player/Rem_right_3.png"));
-		  right4 = ImageIO.read(getClass().getResourceAsStream("/player/Rem_right_4.png"));
-		  right5 = ImageIO.read(getClass().getResourceAsStream("/player/Rem_right_5.png"));
-		  up1 = ImageIO.read(getClass().getResourceAsStream("/player/Rem_up_1.png"));
-		  up2 = ImageIO.read(getClass().getResourceAsStream("/player/Rem_up_2.png"));
-		  up3 = ImageIO.read(getClass().getResourceAsStream("/player/Rem_up_3.png"));
-		  up4 = ImageIO.read(getClass().getResourceAsStream("/player/Rem_up_4.png"));
-		  up5 = ImageIO.read(getClass().getResourceAsStream("/player/Rem_up_5.png"));
-		  
-	  }catch(IOException e ) {
-		  e.printStackTrace();
-	  }
-  }
+	    try {
+			
+	        standingLeft = ImageIO.read(getClass().getResourceAsStream("/player/Rem_Standing_Left.png"));
+	        standingRight = ImageIO.read(getClass().getResourceAsStream("/player/Rem_Standing_Right.png"));
+
+	        left1 = ImageIO.read(getClass().getResourceAsStream("/player/Rem_Walk_Left_1.png"));
+	        left2 = ImageIO.read(getClass().getResourceAsStream("/player/Rem_Walk_Left_2 .png"));
+
+	        right1 = ImageIO.read(getClass().getResourceAsStream("/player/Rem_Walk_Right_1.png"));
+	        right2 = ImageIO.read(getClass().getResourceAsStream("/player/Rem_Walk_Right_2 .png"));
+
+	        
+	        inBetweenLeft = ImageIO.read(getClass().getResourceAsStream("/player/Rem _InBetween_Left.png"));
+	        inBetweenRight = ImageIO.read(getClass().getResourceAsStream("/player/Rem_InBetween_Right.png"));
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+	}
 
   public void update (){
       
-	  if(keyH.upPressed == true || keyH.downPressed == true || keyH.leftPressed == true || keyH.rightPressed == true) {
-		  
-		  if(keyH.upPressed == true) {
-	          direction = "up";
-	    	  worldY -= speed;
-          }
-	      else if (keyH.downPressed == true){
-	          direction = "down";       
-	    	  worldY += speed;
-          }
-	      else if (keyH.leftPressed == true){
-	          direction = "left";       
-	    	  worldX -= speed;
-          }
-	      else if (keyH.rightPressed == true){
-	          direction = "right";       
-	    	  worldX += speed;
-          }
-	      
-	      spriteCounter++;
-	      	if(spriteCounter > 6) {  
-	            spriteNum++;
-	            	if(spriteNum > 5) {
-	            		spriteNum = 1;
-	    	  }
-	    	  spriteCounter = 0;
-	      }
-	  }
+	  if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
+		    if (keyH.upPressed) {
+		        direction = "up";
+		        worldY -= speed;
+		    } else if (keyH.downPressed) {
+		        direction = "down";
+		        worldY += speed;
+		    } else if (keyH.leftPressed) {
+		        direction = "left";
+		        worldX -= speed;
+		    } else if (keyH.rightPressed) {
+		        direction = "right";
+		        worldX += speed;
+		    }
 
-	}
-  public void draw(Graphics2D g2 ){
-		
-	  BufferedImage image = null;
-	  
-	  switch(direction) {
-		  case "up":
-			  if(spriteNum == 1) {
-				  image = up1;
-			  }
-			  if(spriteNum == 2) {
-				  image =up2;
-			  }
-			  if(spriteNum == 3) {
-				  image =up3;
-			  }
-			  if(spriteNum == 4) {
-				  image =up4;
-			  }
-			  if(spriteNum == 5) {
-				  image =up5;
-			  }
-			  break;
-			  
-		  case "down":
-			  if(spriteNum ==1) {
-				  image = down1;
-			  }
-			  if(spriteNum ==2) {
-				  image = down2;
-			  }
-			  if(spriteNum ==3) {
-				  image = down3;
-			  }
-			  if(spriteNum ==4) {
-				  image = down4;
-			  }
-			  if(spriteNum ==5) {
-				  image = down5;
-			  }
-			  break;
-			  
-		  case "left":
-			  if(spriteNum ==1) {
-				  image = left1;
-			  }
-			  if(spriteNum ==2) {
-				  image = left2;
-			  }
-			  if(spriteNum ==3) {
-				  image = left3;
-			  }
-			  if(spriteNum ==4) {
-				  image = left4;
-			  }
-			  if(spriteNum ==5) {
-				  image = left5;
-			  }
-			  break;
-			  
-		  case "right":
-			  if(spriteNum ==1) {
-				  image = right1;
-			  }
-			  if(spriteNum ==2) {
-				  image = right2;
-			  }
-			  if(spriteNum ==3) {
-				  image = right3;
-			  }
-			  if(spriteNum ==4) {
-				  image = right4;
-			  }
-			  if(spriteNum ==5) {
-				  image = right5;
-			  }
-			  break;
-		  }
-	  g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
-	  
-	  
+		    spriteCounter++;
+		    if (spriteCounter > 6) {
+		        if (spriteNum == 1) spriteNum = 2;
+		        else spriteNum = 1;
+		        spriteCounter = 0;
+		    }
+		}
+
   	}
- 
-  }
+  public void draw(Graphics2D g2) {
+	    BufferedImage image = null;
+
+	    boolean moving = keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed;
+
+	    switch (direction) {
+	        case "left":
+	            if (moving) {
+	                image = (spriteNum == 1) ? left1 : left2;
+	            } else {
+	                image = standingLeft;
+	            }
+	            break;
+
+	        case "right":
+	            if (moving) {
+	                image = (spriteNum == 1) ? right1 : right2;
+	            } else {
+	                image = standingRight;
+	            }
+	            break;
+
+	        case "up":
+	        case "down":
+				
+	            image = standingRight;
+	            break;
+	    }
+
+	    g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+  	}
+}
+		//hanggang dito, copy paste mo nayan bitchass nigga, also remove this pagtapos mo.
