@@ -51,14 +51,18 @@ public class Player extends Entity {
 	        standingRight = ImageIO.read(getClass().getResourceAsStream("/player/Rem_Standing_Right.png"));
 
 	        left1 = ImageIO.read(getClass().getResourceAsStream("/player/Rem_Walk_Left_1.png"));
-	        left2 = ImageIO.read(getClass().getResourceAsStream("/player/Rem_Walk_Left_2 .png"));
+	        left2 = ImageIO.read(getClass().getResourceAsStream("/player/Rem_Walk_Left_2.png"));
 
 	        right1 = ImageIO.read(getClass().getResourceAsStream("/player/Rem_Walk_Right_1.png"));
-	        right2 = ImageIO.read(getClass().getResourceAsStream("/player/Rem_Walk_Right_2 .png"));
+	        right2 = ImageIO.read(getClass().getResourceAsStream("/player/Rem_Walk_Right_2.png"));
 
-	        
-	        inBetweenLeft = ImageIO.read(getClass().getResourceAsStream("/player/Rem _InBetween_Left.png"));
+	        inBetweenLeft = ImageIO.read(getClass().getResourceAsStream("/player/Rem_InBetween_Left.png"));
 	        inBetweenRight = ImageIO.read(getClass().getResourceAsStream("/player/Rem_InBetween_Right.png"));
+	        
+	        inBetweenUp = ImageIO.read(getClass().getResourceAsStream("/player/Rem_InBetween_Up.png"));
+	        
+	        up1 = ImageIO.read(getClass().getResourceAsStream("/player/Rem_Walk_Up_1.png"));
+	        up2 = ImageIO.read(getClass().getResourceAsStream("/player/Rem_Walk_Up_2.png"));
 	    } catch (IOException e) {
 	        e.printStackTrace();
 	    }
@@ -129,6 +133,18 @@ public class Player extends Entity {
             break;
 
         case "up":
+            if (moving) {
+                switch (spriteNum) {
+                    case 1: image = up1; break;
+                    case 2: image = inBetweenUp; break;
+                    case 3: image = up2; break;
+                    case 4: image = inBetweenUp; break;
+                }
+            } else {
+                image = inBetweenUp;
+            }
+            break;
+            
         case "down":
             // reuse standing frames for now
             image = standingRight;
@@ -138,5 +154,4 @@ public class Player extends Entity {
 	    g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
   	}
 }
-
 
