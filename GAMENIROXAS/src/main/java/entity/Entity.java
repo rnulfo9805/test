@@ -13,6 +13,7 @@ public class Entity {
     BufferedImage standingLeft, standingRight;
     BufferedImage left1, left2, right1, right2;
     BufferedImage inBetweenLeft, inBetweenRight;
+    BufferedImage inBetweenDown, inBetweenUp;
    
 
     public String direction; 
@@ -20,3 +21,4 @@ public class Entity {
     public int spriteCounter = 0;
     public int spriteNum = 1;
 }
+
