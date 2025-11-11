@@ -36,9 +36,10 @@ public class Player extends Entity {
 		
     }
   public void setDefaultValues(){ 
-      
-      worldX = 100;
-      worldY = 100;
+	    int centerCol = gp.maxWorldCol / 2;
+	    int centerRow = gp.maxWorldRow / 2;
+	    worldX = centerCol * gp.tileSize;
+	    worldY = centerRow * gp.tileSize;
       speed = 4;
       direction = "down";
   
@@ -137,4 +138,5 @@ public class Player extends Entity {
 	    g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
   	}
 }
+
 
