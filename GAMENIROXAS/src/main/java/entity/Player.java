@@ -1,12 +1,12 @@
 package entity;
 
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
-import main.GamePanel;
-import main.KeyHandler;
+import main.main.GamePanel;
+import main.main.KeyHandler;
+import java.awt.Rectangle;
 
 public class Player extends Entity {
     
@@ -17,10 +17,6 @@ public class Player extends Entity {
     public int screenY;
     int counter2 = 0;
     
-    BufferedImage standingLeft, standingRight;
-    BufferedImage left1, left2, right1, right2;
-    BufferedImage inBetweenLeft, inBetweenRight;
-	
     public Player(GamePanel gp, KeyHandler keyH) {
     	
     	this.gp = gp;
@@ -35,11 +31,9 @@ public class Player extends Entity {
     	solidArea.width = 32;
     	solidArea.height = 32;
     	
-    	
-    	
     	setDefaultValues();
 		GetPlayerImage();
-
+		
     }
   public void setDefaultValues(){ 
       
@@ -51,7 +45,7 @@ public class Player extends Entity {
   	}
   public void GetPlayerImage() {
 	    try {
-			
+
 	        standingLeft = ImageIO.read(getClass().getResourceAsStream("/player/Rem_Standing_Left.png"));
 	        standingRight = ImageIO.read(getClass().getResourceAsStream("/player/Rem_Standing_Right.png"));
 
@@ -69,80 +63,78 @@ public class Player extends Entity {
 	    }
 	}
 
-  public void update (){
-      
-	  if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
-		    if (keyH.upPressed) {
-		        direction = "up";	       
-		    } else if (keyH.downPressed) {
-		        direction = "down"; 
-		    } else if (keyH.leftPressed) {
-		        direction = "left";	     
-		    } else if (keyH.rightPressed) {
-		        direction = "right";	      
-		    }
-		    
-		    //check tile collision
-		    if (collisionOn == false) {
-		    	switch (direction) {
-		    	case "up":
-		    		worldY -= speed;
-		    	break;
-		    	case "down":
-		    		worldY += speed;
-		    	break;
-		    	case "left":
-		    		 worldX -= speed;
-		    	break;
-		    	case "right":
-		    		 worldX += speed;
-		    	break;
-		    	
-		    	
-		    	}
-		    }
-		    
-		    collisionOn = false;
-		    gp.cChecker.checkTile(this);
+  public void update() {
+	    boolean moving = keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed;
 
-		    spriteCounter++;
-		    if (spriteCounter > 6) {
-		        if (spriteNum == 1) spriteNum = 2;
-		        else spriteNum = 1;
-		        spriteCounter = 0;
-		    }
-		}
+	    if (moving) {
+	        // movement logic
+	        if (keyH.upPressed) direction = "up";
+	        else if (keyH.downPressed) direction = "down";
+	        else if (keyH.leftPressed) direction = "left";
+	        else if (keyH.rightPressed) direction = "right";
 
-  	}
+	        // move player
+	        switch (direction) {
+	        	case "up": worldY -= speed * 2; break;
+	        	case "down": worldY += speed * 2; break;
+	        	case "left": worldX -= speed * 2; break;
+	        	case "right": worldX += speed * 2; break;
+	        }
+
+	        // smoother animation timing
+	        spriteCounter++;
+	        if (spriteCounter > 8) { // lower = faster animation
+	            spriteNum++;
+	            if (spriteNum > 4) spriteNum = 1;
+	            spriteCounter = 0;
+	        }
+
+	    } else {
+	        // reset to first frame when idle
+	        spriteNum = 1;
+	        spriteCounter = 0;
+	    }
+	}
   public void draw(Graphics2D g2) {
 	    BufferedImage image = null;
 
 	    boolean moving = keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed;
 
 	    switch (direction) {
-	        case "left":
-	            if (moving) {
-	                image = (spriteNum == 1) ? left1 : left2;
-	            } else {
-	                image = standingLeft;
-	            }
-	            break;
+        case "left":
+            if (moving) {
+                switch (spriteNum) {
+                    case 1: image = left1; break;
+                    case 2: image = inBetweenLeft; break;
+                    case 3: image = left2; break;
+                    case 4: image = inBetweenLeft; break;
+                }
+            } else {
+                image = standingLeft;
+            }
+            break;
 
-	        case "right":
-	            if (moving) {
-	                image = (spriteNum == 1) ? right1 : right2;
-	            } else {
-	                image = standingRight;
-	            }
-	            break;
+        case "right":
+            if (moving) {
+                switch (spriteNum) {
+                    case 1: image = right1; break;
+                    case 2: image = inBetweenRight; break;
+                    case 3: image = right2; break;
+                    case 4: image = inBetweenRight; break;
+                }
+            } else {
+                image = standingRight;
+            }
+            break;
 
-	        case "up":
-	        case "down":
-				
-	            image = standingRight;
-	            break;
-	    }
+        case "up":
+        case "down":
+            // reuse standing frames for now
+            image = standingRight;
+            break;
+    }
 
 	    g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
   	}
 }
+
